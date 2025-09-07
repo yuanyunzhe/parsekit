@@ -3,7 +3,7 @@ from collections import Counter
 from collections.abc import Callable
 from pathlib import Path
 
-from src.sentence import ConlluSentence
+from .sentence import ConlluSentence
 
 
 class DependencyScores:

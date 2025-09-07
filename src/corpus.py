@@ -4,7 +4,7 @@ from collections.abc import Iterator
 from functools import cached_property
 from pathlib import Path
 
-from src.sentence import ConlluSentence
+from .sentence import ConlluSentence
 
 
 class ConlluCorpus:

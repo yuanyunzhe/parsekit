@@ -4,7 +4,7 @@ from collections.abc import Iterator
 from functools import cached_property
 from typing import overload
 
-from src.token import ConlluToken
+from .token import ConlluToken
 
 
 class ConlluSentence:

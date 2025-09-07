@@ -4,8 +4,8 @@ from collections import Counter
 from collections.abc import Iterator
 from typing import overload
 
-from src.corpus import ConlluCorpus
-from src.token import PAD, ROOT, UNK
+from .corpus import ConlluCorpus
+from .token import PAD, ROOT, UNK
 
 PAD_IDX = 0
 NO_IDX = -1
