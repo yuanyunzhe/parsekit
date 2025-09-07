@@ -1,0 +1,16 @@
+[project]
+name = "parsekit"
+version = "0.1.0"
+description = "A data toolkit for dependency parsing: CoNLL‑U I/O, structures, and vocabulary utilities."
+readme = "README.md"
+requires-python = ">=3.12"
+dependencies = []
+
+
+[tool.setuptools]
+packages = ["parsekit"]
+package-dir = {"parsekit" = "src"}
+
+[build-system]
+requires = ["setuptools", "wheel"]
+build-backend = "setuptools.build_meta"
