@@ -18,17 +18,13 @@ class VocabularySet:
             words.extend(sentence.words)
             tags.extend(sentence.tags)
             rels.extend(sentence.rels)
-        self.word_vocab = Vocabulary(
-            "words", words, special_items=[PAD, UNK, ROOT], min_freq=1
-        )
+        self.word_vocab = Vocabulary("words", words, special_items=[PAD, UNK, ROOT], min_freq=1)
         self.tag_vocab = Vocabulary("tags", tags, special_items=[PAD, ROOT])
         self.rel_vocab = Vocabulary("rels", rels, special_items=[UNK, ROOT])
 
 
 class Vocabulary:
-    def __init__(
-        self, name: str, items: list[str], special_items: list[str], min_freq: int = 1
-    ):
+    def __init__(self, name: str, items: list[str], special_items: list[str], min_freq: int = 1):
         self.item2idx: dict[str, int] = {}
         self.idx2item: dict[int, str] = {}
         for item in special_items:

@@ -1,12 +1,12 @@
 from __future__ import annotations
 
+import xml.etree.ElementTree as ET
 from collections.abc import Iterator
 from functools import cached_property
 from pathlib import Path
-import xml.etree.ElementTree as ET
 
-from .sentence import ConlluSentence
 from .graph import TigerGraph
+from .sentence import ConlluSentence
 
 
 class ConlluCorpus:

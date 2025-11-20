@@ -49,9 +49,7 @@ class DependencyScores:
                 total_tokens[length] = self.total_tokens[length]
         return f"UAS: {self._pct(correct_heads, total_tokens):.2f}%, LAS: {self._pct(correct_arcs, total_tokens):.2f}%"
 
-    def _pct(
-        self, num: Counter[int], den: Counter[int], length: int | None = None
-    ) -> float:
+    def _pct(self, num: Counter[int], den: Counter[int], length: int | None = None) -> float:
         try:
             if length is None:
                 return num.total() / den.total() * 100

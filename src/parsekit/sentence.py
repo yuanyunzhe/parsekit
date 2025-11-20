@@ -91,11 +91,7 @@ class ConlluSentence:
         while queue:
             token = queue.pop(0)
             visited.add(token.id)
-            children = [
-                t
-                for t in self._tokens
-                if t.pred_head == token.id and t.id not in visited
-            ]
+            children = [t for t in self._tokens if t.pred_head == token.id and t.id not in visited]
             queue.extend(children)
         return len(visited) == len(self._tokens)
 
