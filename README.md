@@ -1,12 +1,12 @@
 # parsekit
 ## Overview
-A basic toolkit for dependency parsing: CoNLL‑U I/O, typed data structures, vocabularies, and evaluation metrics.
+A basic toolkit for parsing: I/O, typed data structures, vocabularies, and evaluation metrics.
 
 ## Installation
 - Local install
     - pip: `pip install -e .`
     - uv: `uv pip install -e .`
-- Requires `Python >= 3.12`
+- Requires `Python >= 3.10`
 
 ## Quick Start
 
