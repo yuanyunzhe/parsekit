@@ -87,6 +87,7 @@ class DependencyScores:
         self.correct_roots = Counter()
 
     def update(self, sentences: list[ConlluSentence]) -> None:
+        assert isinstance(sentences, list)
         for sentence in sentences:
             length = len(sentence)
             all_correct = True
