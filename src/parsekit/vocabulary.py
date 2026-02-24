@@ -19,8 +19,8 @@ class VocabularySet:
             tags.extend(sentence.tags)
             rels.extend(sentence.rels)
         self.word_vocab = Vocabulary("words", words, special_items=[PAD, UNK, ROOT], min_freq=1)
-        self.tag_vocab = Vocabulary("tags", tags, special_items=[PAD, ROOT])
-        self.rel_vocab = Vocabulary("rels", rels, special_items=[UNK, ROOT])
+        self.tag_vocab = Vocabulary("tags", tags, special_items=[PAD, UNK, ROOT])
+        self.rel_vocab = Vocabulary("rels", rels, special_items=[PAD, UNK, ROOT])
 
 
 class Vocabulary:
