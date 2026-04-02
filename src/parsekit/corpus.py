@@ -14,7 +14,7 @@ class ConlluCorpus:
         self.sentences = sentences
 
     @classmethod
-    def from_file(cls, path: Path, projective_only: bool = True) -> ConlluCorpus:
+    def from_file(cls, path: Path, projective_only: bool = False) -> ConlluCorpus:
         sentences = []
         with path.open("r", encoding="utf-8") as f:
             lines = []
