@@ -6,7 +6,6 @@ readme = "README.md"
 requires-python = ">=3.10"
 dependencies = []
 
-
 [build-system]
 requires = ["setuptools>=68.0.0", "wheel"]
 build-backend = "setuptools.build_meta"
@@ -19,3 +18,53 @@ where = ["src"]
 
 [tool.setuptools.package-data]
 parsekit = ["py.typed"]
+
+[tool.ruff]
+line-length = 160
+target-version = "py312"
+src = ["src"]
+exclude = [".venv", "checkpoints", "__pycache__"]
+
+
+[tool.ruff.lint]
+select = [
+    "E",
+    "F",
+    "I",
+    "N",
+    "UP",
+    "YTT",
+    "B",
+    "A",
+    "C4",
+    "ISC",
+    "ICN",
+    "PIE",
+    "Q",
+    "RET",
+    "SIM",
+    "TID",
+    "TCH",
+    "INT",
+    "PTH",
+    "PLC",
+    "PLE",
+    "PLR",
+    "PLW",
+    "RUF",
+]
+ignore = ["E501", "A001", "TCH001", "TCH003", "PLR0913"]
+
+[tool.ruff.lint.isort]
+known-first-party = ["npp"]
+
+[tool.ruff.format]
+quote-style = "double"
+indent-style = "space"
+skip-magic-trailing-comma = false
+
+[tool.ty.environment]
+python-version = "3.12"
+
+[tool.ty.src]
+include = ["src", "tests"]
