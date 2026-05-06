@@ -84,7 +84,7 @@ class ConlluSentence:
                     return False
         return True
 
-    @cached_property
+    @property
     def pred_valid(self) -> bool:
         visited = set()
         queue = [self._tokens[0]]
