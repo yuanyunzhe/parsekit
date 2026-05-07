@@ -6,6 +6,20 @@ from pathlib import Path
 from .sentence import ConlluSentence
 
 
+PTB_PUNCT_TAGS = {".", "``", "''", ":", ","}
+PUNCT_TAGS = {"pu", "punct"}
+
+
+def is_punctuation(pos: str) -> bool:
+    return pos in PTB_PUNCT_TAGS or pos.lower() in PUNCT_TAGS
+
+
+def normalize_deprel(rel: str | None, use_deprel_subtypes: bool) -> str | None:
+    if rel is None or use_deprel_subtypes:
+        return rel
+    return rel.split(":", 1)[0]
+
+
 class DependencyScores:
     total_sentences: Counter[int]
     total_tokens: Counter[int]
@@ -15,7 +29,9 @@ class DependencyScores:
     correct_arcs: Counter[int]
     correct_roots: Counter[int]
 
-    def __init__(self) -> None:
+    def __init__(self, use_deprel_subtypes: bool = False, ignore_punct: bool = False) -> None:
+        self.use_deprel_subtypes = use_deprel_subtypes
+        self.ignore_punct = ignore_punct
         self.reset()
 
     def __str__(self) -> str:
@@ -92,24 +108,36 @@ class DependencyScores:
             length = len(sentence)
             all_correct = True
             root_correct = False
+            evaluated_tokens = 0
             self.total_sentences[length] += 1
-            self.total_tokens[length] += length
             for token in sentence:
-                if token.pred_head == token.head and token.pred_rel == token.rel:
+                if self.ignore_punct and is_punctuation(token.pos):
+                    continue
+
+                evaluated_tokens += 1
+                pred_rel = normalize_deprel(token.pred_rel, self.use_deprel_subtypes)
+                gold_rel = normalize_deprel(token.rel, self.use_deprel_subtypes)
+                head_correct = token.pred_head == token.head
+                label_correct = pred_rel == gold_rel
+
+                if head_correct and label_correct:
                     self.correct_arcs[length] += 1
                 else:
                     all_correct = False
-                if token.pred_head == token.head:
+                if head_correct:
                     self.correct_heads[length] += 1
                     if token.head == sentence.root.id:
                         root_correct = True
-                if token.pred_rel == token.rel:
+                if label_correct:
                     self.correct_labels[length] += 1
+            self.total_tokens[length] += evaluated_tokens
             self.correct_sentences[length] += int(all_correct)
             self.correct_roots[length] += int(root_correct)
 
     def save(self, path: Path) -> None:
         stats = {
+            "use_deprel_subtypes": self.use_deprel_subtypes,
+            "ignore_punct": self.ignore_punct,
             "total_sentences": self.total_sentences,
             "total_tokens": self.total_tokens,
             "correct_sentences": self.correct_sentences,
@@ -124,6 +152,8 @@ class DependencyScores:
     def load(self, path: Path) -> None:
         with path.open("rb") as f:
             stats = pickle.load(f)
+        self.use_deprel_subtypes = stats.get("use_deprel_subtypes", False)
+        self.ignore_punct = stats.get("ignore_punct", False)
         self.total_sentences = stats["total_sentences"]
         self.total_tokens = stats["total_tokens"]
         self.correct_sentences = stats["correct_sentences"]
