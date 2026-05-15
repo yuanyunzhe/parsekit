@@ -8,17 +8,24 @@ from .token import ConlluToken
 
 
 class ConlluSentence:
-    def __init__(self, tokens: list[ConlluToken]):
+    def __init__(self, tokens: list[ConlluToken], metadata: dict[str, str] | None = None):
         self._tokens = (ConlluToken.create_root(), *tokens)
+        self.metadata = metadata or {}
 
     @classmethod
     def from_lines(cls, lines: list[str]) -> ConlluSentence:
         tokens = []
+        metadata = {}
         for line in lines:
+            if line.startswith("#"):
+                key, sep, value = line[1:].strip().partition("=")
+                if sep:
+                    metadata[key.strip()] = value.strip()
+                continue
             token = ConlluToken.from_line(line)
             if token is not None:
                 tokens.append(token)
-        return cls(tokens)
+        return cls(tokens, metadata)
 
     def __len__(self) -> int:
         return len(self.tokens)
@@ -39,6 +46,14 @@ class ConlluSentence:
 
     def __str__(self) -> str:
         return self.to_conllu()
+
+    @property
+    def text(self) -> str:
+        return self.metadata.get("text", "")
+
+    @property
+    def sent_id(self) -> str:
+        return self.metadata.get("sent_id", "")
 
     @cached_property
     def root(self) -> ConlluToken:
